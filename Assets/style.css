@@ -1,0 +1,9 @@
+.navbar{
+    display: flex;
+    font-family: 'Signika Negative', sans-serif;
+    font-weight: bolder;
+    justify-content: center;
+    font-size: xx-large;
+    color: beige;
+    text-align: center;
+}
