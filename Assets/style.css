@@ -7,3 +7,27 @@
     color: beige;
     text-align: center;
 }
+
+/* #searchbar{
+    margin-right: 0px;
+} */
+
+#headingsearch{
+    display: flex;
+    font-family: 'Signika Negative', sans-serif;
+    font-weight: bolder;
+    font-size:medium
+}
+
+.placeholders{
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer{
+    display: flex;
+    font-family: 'Signika Negative', sans-serif;
+    font-weight: bolder;
+    font-size:medium;
+    color: beige;
+}

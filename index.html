@@ -15,15 +15,56 @@
     <header>
         <nav class="navbar bg-primary" data-bs-theme="dark">Weather Dashboard</nav>
     </header>
-    
+
+    <h2 id="headingsearch">Enter the name of your city below for weather conditions</h2>
+
     <div class="input-group mb-3 mt-5">
         <button class="btn btn-primary" type="button">Search</button>
-        <input type="text" class="form-control col-lg" placeholder="Enter city name">
+        <input id="searchbar" type="text" class="form-control-sm" placeholder="Enter city name">
+    </div>
+     <div class="container mt-3">
+        <h2>Weather info display</h2>
+        <p>The weather infor will show below</p>            
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-primary">
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-active">
+              <td>John</td>
+              <td>Doe</td>
+              <td>john@example.com</td>
+            </tr>
+            <tr class="table-active">
+              <td>Mary</td>
+              <td>Moe</td>
+              <td>mary@example.com</td>
+            </tr>
+            <tr class="table-active">
+              <td>July</td>
+              <td>Dooley</td>
+              <td>july@example.com</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
+      <div class="placeholders">
+        <img src="./Assets/sun.png" alt="sun">
+        <img src="./Assets/sun.png" alt="sun">
+        <img src="./Assets/sun.png" alt="sun">
+        <img src="./Assets/sun.png" alt="sun">
+        <img src="./Assets/sun.png" alt="sun">
 
-    <div id="citiesSearched"></div>
-
+      </div>
+      
+      <div class="container">
+        <footer class="footer bg-primary">Weather App by Jeff</footer>
+      </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="./Assets/script.js"></script>
