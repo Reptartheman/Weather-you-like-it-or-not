@@ -3,11 +3,14 @@ const requestUrl = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}
 const searchButton = document.querySelector(".btn");
 
 
-searchButton.addEventListener("click", function(){
-
+//When clicked, the content entered in the searchbar saves to localstorage.
+$(".btn").click(function(){
+    let searchBarText = $("input").text;
+    localStorage.setItem(searchBarText, JSON.stringify(searchBarText));
     
     console.log("working");
 });
+
 
 
 

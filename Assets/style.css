@@ -1,20 +1,43 @@
+:root {
+    --sectionsbackground: gainsboro;
+    --border: 3px solid;
+    --fontgroup: 'Signika Negative', sans-serif;
+}
+
+
 .navbar{
     display: flex;
-    font-family: 'Signika Negative', sans-serif;
+    font-family: var(--fontgroup); 
     font-weight: bolder;
     justify-content: center;
     font-size: xx-large;
     color: beige;
     text-align: center;
+    border-top: 0px;
+    border: var(--border);
+    border-radius: 7px;
 }
 
-/* #searchbar{
-    margin-right: 0px;
-} */
+.grid-container{
+    display: grid;
+}
+
+.table{
+    width: 100%;
+}
+
+.input-group{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    width: 100%;
+}
 
 #headingsearch{
-    display: flex;
-    font-family: 'Signika Negative', sans-serif;
+    text-align: center;
+    font-family: var(--fontgroup);
     font-weight: bolder;
     font-size:medium
 }
@@ -26,8 +49,20 @@
 
 .footer{
     display: flex;
-    font-family: 'Signika Negative', sans-serif;
+    justify-content: center;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 0px;
+    border: var(--border);
+    border-radius: 7px;
+    font-family: var(--fontgroup);
     font-weight: bolder;
-    font-size:medium;
+    font-size:xx-large;
     color: beige;
+}
+
+#fivedayforecast{
+    text-align: center;
+
 }
