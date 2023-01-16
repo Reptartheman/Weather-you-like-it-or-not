@@ -9,15 +9,19 @@ const currentWeather = document.getElementById("currentWeather");
 $(".btn").click(function(){
     let searchBarText = $("#searchbar").val();
     localStorage.setItem("searchBarText",searchBarText);
-
     let weather = fetchData(searchBarText);
-
-   // currentConditions(weather);
-/*     const dataFetch = `https://api.openweathermap.org/data/2.5/weather?q=${searchBarText}&appid=${apiKey}`
-    fetch(dataFetch)
-    .then(response => response.json())
-    .then(data => console.log(data)) */
+    let newButton = $(".newButton").append(`<button>${searchBarText}</button>`)
+    newButton = $("#searchbar").val();
+    /* newButton = $(".newButton").addClass("btn btn-primary"); */
+    let DayOne = $(`<p>Temperature: ${citydata.list[8].main.temp}</p>`).appendTo("#Day")
 });
+
+//next part is to get a new button to display weather data.
+
+function previousCity(){
+    
+}
+
 
 function fetchData(searchBarText){
     const dataFetch = `https://api.openweathermap.org/data/2.5/weather?q=${searchBarText}&appid=${apiKey}`
@@ -45,7 +49,8 @@ function fetchData(searchBarText){
     <h5> Temperature: ${citydata.list[0].main.temp}</h5>
     <h5> Wind: ${citydata.list[0].wind.speed}</h5> <h5> Humidity: ${citydata.list[0].main.humidity}</h5>
     <h3> 5-Day Forecast: </h3> <h5> Temperature: ${citydata.list[8].main.temp}</h5> 
-    
+    <h5> Humidity: ${citydata.list[8].main.humidity}</h5>
+    <h5> Wind: ${citydata.list[8].wind.speed}</h5>
     
     
     </div>`
@@ -59,6 +64,7 @@ function fetchData(searchBarText){
     // console.log(citydata);
    // currentWeather.textContent = 
 }
+
 
 
 

@@ -20,11 +20,46 @@
 
 .grid-container{
     display: grid;
+    grid-template-columns: repeat(6, 2fr);
 }
 
-.table{
-    width: 100%;
+.grid-container h2{
+    font-size: x-large;
+    text-align: center;
 }
+
+
+.item{
+    justify-self: center;
+    width: 175px;
+    height: 300px;
+}
+
+
+#currentWeather{
+    background-color: #0d6efd;
+    color: beige;
+    font-family: var(--fontgroup);
+    border-radius: 10px;
+}
+
+#Day{
+    background-color: #0d6efd;
+    color: beige;
+    font-family: var(--fontgroup);
+    border-radius: 10px;
+}
+
+
+.newButton{
+
+}
+
+
+
+
+
+
 
 .input-group{
     display: flex;
@@ -42,10 +77,10 @@
     font-size:medium
 }
 
-.placeholders{
+/* .placeholders{
     display: flex;
     justify-content: space-around;
-}
+} */
 
 .footer{
     display: flex;
@@ -62,7 +97,7 @@
     color: beige;
 }
 
-#fivedayforecast{
+/* #fivedayforecast{
     text-align: center;
 
-}
+} */
