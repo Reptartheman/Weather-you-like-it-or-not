@@ -21,6 +21,7 @@
 .grid-container{
     display: grid;
     grid-template-columns: repeat(6, 2fr);
+    padding-left: 5px;
 }
 
 .grid-container h2{
@@ -29,11 +30,15 @@
 }
 
 
+
+
 .item{
     justify-self: center;
     width: 175px;
-    height: 300px;
+    height: 250px;
 }
+
+
 
 
 #currentWeather{
@@ -43,22 +48,27 @@
     border-radius: 10px;
 }
 
-#Day{
+#currentWeather li{
+    list-style-type: none;
+    font-size: large;
+    text-align: center;
+}
+
+#currentWeather img{
+    width: 100px;
+    height: 100px;
+    margin-left: 35px;
+   
+}
+
+
+
+.Day{
     background-color: #0d6efd;
     color: beige;
     font-family: var(--fontgroup);
     border-radius: 10px;
 }
-
-
-.newButton{
-
-}
-
-
-
-
-
 
 
 .input-group{
