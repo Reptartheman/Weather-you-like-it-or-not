@@ -68,6 +68,13 @@
     color: beige;
     font-family: var(--fontgroup);
     border-radius: 10px;
+    text-align: center;
+}
+
+.Day img{
+    width: 100px;
+    height: 100px;
+    margin-left: 25px;
 }
 
 

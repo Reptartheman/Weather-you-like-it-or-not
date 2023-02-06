@@ -7,7 +7,7 @@ let weatherDisplay = document.querySelector(".grid-container");
 
 //the date
 function displayDate(day) {
-    var todayDate = day.getMonth()+1 + "/" + day.getDate() + "/" + day.getFullYear();
+    var todayDate = dayjs().format('M/DD/YYYY');
     return todayDate;
   }
 
@@ -51,8 +51,8 @@ function fetchData(searchBarText){
     // * We also want it to have the style of the div that is on the page.
 // * Once all of this is done, we should have enough info to do the rest.
   function currentConditions(citydata){
-    let day = new Date(citydata.list[0].dt*1000+(citydata.city.timezone*1000));
-    let todaysDate = displayDate(day);
+    let day = dayjs().format('M/DD/YYYY');
+    let todaysDate = "Right now"
     let todayDiv = document.createElement("div");
     let currentHeader = document.createElement("h2");
     let listConditions = document.createElement("ul");
@@ -80,29 +80,35 @@ function fetchData(searchBarText){
     humidity.textContent = " Humidty: " + citydata.list[0].main.humidity;
     windSpeed.textContent = " Wind speed: " + citydata.list[0].wind.speed;
 
-    console.log(citydata);
+     console.log(citydata);
    console.log("Current temperature: " + citydata.list[0].main.temp);
    console.log("Humidty: " + citydata.list[0].main.humidity);
-   console.log("Wind speed: " + citydata.list[0].wind.speed);
+   console.log("Wind speed: " + citydata.list[0].wind.speed); 
+    console.log(iconURL);
   };
 
 
  
   function fiveDay(citydata){
-    //DayOne appears
-    let dayOne = document.createElement("div");
-    let dayOneDate = document.createElement("h2");
-    let dayOneConditions = document.createElement("ul");
-    weatherDisplay.appendChild(dayOne);
-    dayOne.className = "Day"
-    dayOne.id = "currentWeather";
-    dayOneDate
-    dayOne.textContent = " Temp: " + citydata.list[8].main.temp + " ℉"
+    const futureCast = citydata.list;
+    for(let i = 0; i < futureCast.length; i+=8){
+      const forecastDivs = document.createElement('div');
+        forecastDivs.classList = "item Day";
+        let day = dayjs(futureCast[i].dt_txt).format('M/DD/YYYY');
+        //console.log(day);
+      let weatherIcon = futureCast[i].weather[0].icon;
 
+      forecastDivs.innerHTML = `<h2>${day}</h2>
+      <ul>
+      <li>Temp: ${futureCast[i].main.temp} ℉ </li>
+      <li> Humidity: ${futureCast[i].main.humidity}</li>
+      <li> Wind Speed: ${futureCast[i].wind.speed}</li>
+      <img src= http://openweathermap.org/img/w/${weatherIcon}.png>
+      </ul>`
+      weatherDisplay.appendChild(forecastDivs);
 
+    }
   }
-
-
 
 
 
