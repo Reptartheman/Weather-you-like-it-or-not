@@ -28,13 +28,13 @@ const storeCities = (searchBarText) => {
   localStorage.setItem("Previous City", JSON.stringify(cities));  
 }
 
-const newButton = (searchBarText) => {
+ const newButton = (searchBarText) => {
   const button = document.createElement("button");
   button.classList = "btn btn-primary"
   button.textContent = searchBarText;
   cityList.appendChild(button);
   button.onclick = fetchData();
-}
+} 
 
 //this function gets weather data from the city searched in the searchBarText
 function fetchData(searchBarText){
