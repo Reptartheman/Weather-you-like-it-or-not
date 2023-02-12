@@ -16,18 +16,24 @@ function displayDate(day) {
 //When clicked, the content entered in the searchbar saves to localstorage and creates new button.
 $(".btn").click(function(){
     let searchBarText = $("#searchbar").val();
-    localStorage.setItem("searchBarText",searchBarText);
+    storeCities(searchBarText);
     let weather = fetchData(searchBarText);
-    cityList.innerHTML = "";
-    const button = document.createElement("button");
-    button.classList = "btn btn-primary"
-    button.textContent = searchBarText;
-    cityList.appendChild(button);
+    newButton(searchBarText);
+    weatherDisplay.innerHTML = "";
     
 });
 
-const clearPastWeather = () => {
-  
+const storeCities = (searchBarText) => {
+  cities.push(searchBarText);
+  localStorage.setItem("Previous City", JSON.stringify(cities));  
+}
+
+const newButton = (searchBarText) => {
+  const button = document.createElement("button");
+  button.classList = "btn btn-primary"
+  button.textContent = searchBarText;
+  cityList.appendChild(button);
+  button.onclick = fetchData();
 }
 
 //this function gets weather data from the city searched in the searchBarText
@@ -54,15 +60,7 @@ function fetchData(searchBarText){
     return results;
     
 }
-//this function is called in the fetchData function. When we call this function we want a few things...
-// * ONE: we want it to grab the .grid-container in the DOM.
-// * TWO: Then we want it to add a new div to that container, we want that new div to display...
-        // * CURRENT: at the top
-        // * temperature
-        // * humidity
-        // * wind speed
-    // * We also want it to have the style of the div that is on the page.
-// * Once all of this is done, we should have enough info to do the rest.
+
   function currentConditions(citydata){
     let day = dayjs().format('M/DD/YYYY');
     let todaysDate = "Right now"
@@ -108,7 +106,6 @@ function fetchData(searchBarText){
       const forecastDivs = document.createElement('div');
         forecastDivs.classList = "item Day";
         let day = dayjs(futureCast[i].dt_txt).format('M/DD/YYYY');
-        //console.log(day);
       let weatherIcon = futureCast[i].weather[0].icon;
 
       forecastDivs.innerHTML = `<h2>${day}</h2>
@@ -125,19 +122,3 @@ function fetchData(searchBarText){
 
 
 
-
-/*     for(let i = 0; i < citydata.list.length; i+=8){
-        console.log(citydata.list[i]);
-    } */
-
-/*WHEN I search for a city 
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed
-
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city */
