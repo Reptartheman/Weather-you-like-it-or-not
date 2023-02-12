@@ -1,8 +1,10 @@
 const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
 let requestUrl = `api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid=${apiKey}`;
 const searchButton = document.querySelector(".btn");
+let searchBarText = $("#searchbar").val();
 let weatherDisplay = document.querySelector(".grid-container");
-
+let cityList = document.querySelector(".cityList");
+let cities = [];
 
 
 //the date
@@ -11,12 +13,23 @@ function displayDate(day) {
     return todayDate;
   }
 
-//When clicked, the content entered in the searchbar saves to localstorage.
+//When clicked, the content entered in the searchbar saves to localstorage and creates new button.
 $(".btn").click(function(){
     let searchBarText = $("#searchbar").val();
     localStorage.setItem("searchBarText",searchBarText);
     let weather = fetchData(searchBarText);
+    cityList.innerHTML = "";
+    const button = document.createElement("button");
+    button.classList = "btn btn-primary"
+    button.textContent = searchBarText;
+    cityList.appendChild(button);
+    
 });
+
+const clearPastWeather = () => {
+  
+}
+
 //this function gets weather data from the city searched in the searchBarText
 function fetchData(searchBarText){
     
@@ -107,8 +120,9 @@ function fetchData(searchBarText){
       </ul>`
       weatherDisplay.appendChild(forecastDivs);
 
-    }
-  }
+    };
+  };
+
 
 
 

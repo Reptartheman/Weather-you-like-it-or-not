@@ -38,8 +38,11 @@
     height: 250px;
 }
 
-
-
+.cityList{
+    display: flex;
+    justify-content: center;
+    font-family: var(--fontgroup);
+}
 
 #currentWeather{
     background-color: #0d6efd;
