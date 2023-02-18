@@ -1,7 +1,7 @@
 const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
 let requestUrl = `api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid=${apiKey}`;
 const searchButton = document.querySelector(".btn");
-let searchBarText = $("#searchbar").val();
+let searchBarText = document.getElementById("searchbar");
 let weatherDisplay = document.querySelector(".grid-container");
 let cityList = document.querySelector(".cityList");
 let cities = [];
@@ -14,28 +14,39 @@ function displayDate(day) {
   }
 
 //When clicked, the content entered in the searchbar saves to localstorage and creates new button.
-$(".btn").click(function(){
+
+
+searchButton.onclick = function(){
+  fetchData(searchBarText.value);
+  storeCities(searchBarText.value);
+  pastSearch(searchBarText.value);
+  weatherDisplay.innerHTML = "";
+
+};
+
+
+/* $(".btn").click(function(){
     let searchBarText = $("#searchbar").val();
     storeCities(searchBarText);
     let weather = fetchData(searchBarText);
     newButton(searchBarText);
     weatherDisplay.innerHTML = "";
     
-});
-
-const storeCities = (searchBarText) => {
-  cities.push(searchBarText);
-  localStorage.setItem("Previous City", JSON.stringify(cities));  
+}); */
+// stores searched city to local storage 
+function storeCities() {
+  cities.push(searchBarText.value);
+  localStorage.setItem("Previous City", JSON.stringify(cities));
 }
-
- const newButton = (searchBarText) => {
-  const button = document.createElement("button");
-  button.classList = "btn btn-primary"
-  button.textContent = searchBarText;
-  cityList.appendChild(button);
-  button.onclick = fetchData();
-} 
-
+// creates a new button
+   const pastSearch = () => {
+    const newButton = document.createElement("button");
+    newButton.classList = "btn btn-primary"
+    newButton.textContent = searchBarText.value;
+    cityList.appendChild(newButton);
+    newButton.addEventListener("click", fetchData); 
+};
+ 
 //this function gets weather data from the city searched in the searchBarText
 function fetchData(searchBarText){
     
@@ -60,7 +71,7 @@ function fetchData(searchBarText){
     return results;
     
 }
-
+// current weather div display
   function currentConditions(citydata){
     let day = dayjs().format('M/DD/YYYY');
     let todaysDate = "Right now"
@@ -91,15 +102,15 @@ function fetchData(searchBarText){
     humidity.textContent = " Humidty: " + citydata.list[0].main.humidity;
     windSpeed.textContent = " Wind speed: " + citydata.list[0].wind.speed;
 
-     console.log(citydata);
-   console.log("Current temperature: " + citydata.list[0].main.temp);
+    console.log(citydata);
+/*    console.log("Current temperature: " + citydata.list[0].main.temp);
    console.log("Humidty: " + citydata.list[0].main.humidity);
    console.log("Wind speed: " + citydata.list[0].wind.speed); 
-    console.log(iconURL);
+    console.log(iconURL); */
   };
 
 
- 
+ //Gets the five day forecast and adds it to the page 
   function fiveDay(citydata){
     const futureCast = citydata.list;
     for(let i = 0; i < futureCast.length; i+=8){
@@ -121,4 +132,12 @@ function fetchData(searchBarText){
   };
 
 
+ function init() {
+  const savedCities = JSON.parse(localStorage.getItem("Previous City"));
+  if(savedCities !== null){
+    cities = savedCities;
+  };
+  pastSearch();
+};
 
+init(); 
