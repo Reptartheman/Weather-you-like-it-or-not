@@ -15,9 +15,11 @@ function displayDate(day) {
 //When clicked, the content entered in the searchbar saves to localstorage and creates new button.
 const weatherSearch = () => {
   searchButton.onclick = function (event) {
+    event.preventDefault();
     fetchData(searchBarText.value);
     storeCities(searchBarText.value);
     newButton();
+    weatherDisplay.innerHTML = "";
   }
 };
 weatherSearch();

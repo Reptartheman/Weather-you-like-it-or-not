@@ -40,8 +40,9 @@
 
 .cityList{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     font-family: var(--fontgroup);
+    margin-left: 90px;
 }
 
 #currentWeather{
@@ -83,7 +84,8 @@
 
 .input-group{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-left: 2px;
 }
 
 .container{
