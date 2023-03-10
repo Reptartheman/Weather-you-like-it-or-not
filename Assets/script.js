@@ -18,8 +18,8 @@ const weatherSearch = () => {
     event.preventDefault();
     fetchData(searchBarText.value);
     storeCities(searchBarText.value);
-    newButton();
     weatherDisplay.innerHTML = "";
+    recentSearch();
   }
 };
 weatherSearch();
@@ -30,25 +30,15 @@ function storeCities(searchBarText) {
   localStorage.setItem("Previous City", JSON.stringify(cities));
 }
 // creates a new button, then fetches data of the searched city in that new button
-function newButton() {
+function recentSearch() {
+  weatherDisplay.innerHTML = "";
+  for (let i = 0; i <cities.length; i++) {
+  const recentCity = cities[i];
   const button = document.createElement("button");
   button.classList = "btn btn-primary";
   button.textContent = searchBarText.value;
   cityList.appendChild(button);
-  button.onclick = function (event) {
-    const secondFetch = `https://api.openweathermap.org/data/2.5/weather?q=${searchBarText}&appid=${apiKey}`;
-    fetch(secondFetch)
-      .then(response => response.json)
-      .then(data => {
-        let requestTwo = `https://api.openweathermap.org/data/2.5/forecast?q=${searchBarText}&appid=${apiKey}&units=imperial`;
-        fetch(requestTwo)
-          .then(response => response.json())
-          .then(data => {
-            currentConditions(data);
-            fiveDay(data);
-          });
-      });
-  };
+  }
 }
 
 //this function gets weather data from the city searched in the searchBarText
@@ -73,7 +63,6 @@ function fetchData(searchBarText) {
 };
 // current weather div display
 function currentConditions(citydata) {
-  let day = dayjs().format('M/DD/YYYY');
   let todaysDate = "Right now"
   let todayDiv = document.createElement("div");
   let currentHeader = document.createElement("h2");
@@ -132,7 +121,15 @@ function init() {
   if (savedCities !== null) {
     cities = savedCities;
   };
-
+  recentSearch();
 };
 
+cityList.addEventListener("click", (e) => {
+  fetchData(e.target.innerHTML)
+  weatherDisplay.innerHTML = "";
+})
+
+
+
 init(); 
+// change the cityList container so that they go in a different container. Make sure that the previous searches clear
