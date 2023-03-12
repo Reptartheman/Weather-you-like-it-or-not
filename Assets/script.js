@@ -1,67 +1,76 @@
-const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
-const searchButton = document.querySelector(".btn");
-let searchBarText = document.getElementById("searchbar");
-let weatherDisplay = document.querySelector(".grid-container");
+const searchForm = document.querySelector("#searchForm");
+const searchButton = document.querySelector("#searchButton");
+let searchBarText = document.querySelector("#searchBarText");
+let weatherDisplay = document.querySelector(".weatherDisplay");
 let cityList = document.querySelector(".cityList");
 let cities = [];
 
 
 //the date
-function displayDate(day) {
+function displayDate() {
   var todayDate = dayjs().format('M/DD/YYYY');
   return todayDate;
 }
 
 //When clicked, the content entered in the searchbar saves to localstorage and creates new button.
-const weatherSearch = () => {
-  searchButton.onclick = function (event) {
+function weatherSearch(event)  {
     event.preventDefault();
-    fetchData(searchBarText.value);
-    storeCities(searchBarText.value);
-    weatherDisplay.innerHTML = "";
-    recentSearch();
-  }
+     weatherDisplay.innerHTML="";
+     const searchedCity = searchBarText.value.trim();
+     const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
+
+     if (searchedCity){
+      const currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=${apiKey}&units=imperial`
+    fetch(currentWeather).then(function (response) {
+        if (response.ok) {
+          response.json().then(function(data) {
+            console.log(data);
+            currentConditions(data);
+            
+          });
+      }
+      });
+      const forecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchedCity}&appid=${apiKey}&units=imperial`
+    fetch(forecast).then(function (response){
+      if(response.ok){
+        response.json().then(function (data) {
+          fiveDay(data)
+        });
+      }
+    });
+
+    cities.push(searchedCity)
+
+    storeCities();
+    renderPast();
+    searchBarText.value = "";
+     } else {
+      window.alert("Please enter a city name");
+      return;
+     }
+
 };
-weatherSearch();
+
 
 // stores searched city to local storage 
-function storeCities(searchBarText) {
-  cities.push(searchBarText);
+function storeCities() {
   localStorage.setItem("Previous City", JSON.stringify(cities));
 }
-// creates a new button, then fetches data of the searched city in that new button
-function recentSearch() {
-  weatherDisplay.innerHTML = "";
+// creates a new button
+function renderPast() {
+  weatherDisplay.innerHTML = ""; 
+  for (let i = 0; i < cities.length; i++){
+  const city = cities[i];
   const button = document.createElement("button");
+  button.textContent = city.toUpperCase();
   button.classList = "btn btn-primary";
   button.id = "newButton";
-  button.textContent = searchBarText.value;
-  cityList.appendChild(button);
-  
+  cityList.appendChild(button);  
+  } 
 }
 
-//this function gets weather data from the city searched in the searchBarText
-function fetchData(searchBarText) {
-
-  const dataFetch = `https://api.openweathermap.org/data/2.5/weather?q=${searchBarText}&appid=${apiKey}`
-  let results =
-    fetch(dataFetch)
-      .then(response => response.json())
-      .then(data => {
-
-        let requestUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${searchBarText}&appid=${apiKey}&units=imperial`
-
-        let fetchAgain = fetch(requestUrl)
-          .then(response => response.json())
-          .then(data => {
-            currentConditions(data);
-            fiveDay(data);
-          });
-      });
-
-};
 // current weather div display
-function currentConditions(citydata) {
+function currentConditions(data) {
   let todaysDate = "Right now"
   let todayDiv = document.createElement("div");
   let currentHeader = document.createElement("h2");
@@ -70,7 +79,7 @@ function currentConditions(citydata) {
   let humidity = document.createElement("li");
   let windSpeed = document.createElement("li");
   let weatherIconImg = document.createElement('img');
-  let iconURL = "http://openweathermap.org/img/w/" + citydata.list[0].weather[0].icon + ".png";
+  let iconURL = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
 
   weatherIconImg.setAttribute("src", iconURL);
   weatherIconImg.setAttribute("id", "IconImg");
@@ -86,16 +95,13 @@ function currentConditions(citydata) {
   weatherDisplay.appendChild(todayDiv);
 
   currentHeader.textContent = todaysDate;
-  temp.textContent = " Temp: " + citydata.list[0].main.temp + " ℉";
-  humidity.textContent = " Humidty: " + citydata.list[0].main.humidity;
-  windSpeed.textContent = " Wind speed: " + citydata.list[0].wind.speed;
-
-  console.log(citydata);
-};
-
+  temp.textContent = " Temp: " + data.main.temp + " ℉";
+  humidity.textContent = " Humidty: " + data.main.humidity;
+  windSpeed.textContent = " Wind speed: " + data.wind.speed;
+}; 
 //Gets the five day forecast and adds it to the page 
-function fiveDay(citydata) {
-  const futureCast = citydata.list;
+function fiveDay(data) {
+  const futureCast = data.list;
   for (let i = 1; i < futureCast.length; i += 8) {
     const forecastDivs = document.createElement('div');
     forecastDivs.classList = "item Day";
@@ -114,23 +120,45 @@ function fiveDay(citydata) {
   };
 };
 
+function pastSearch() {
+weatherDisplay.innerHTML= "";
+const searchedCity = searchBarText.value.trim();
+const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
+
+if (searchedCity){
+ const currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=${apiKey}&units=imperial`
+fetch(currentWeather).then(function (response) {
+   if (response.ok) {
+     response.json().then(function(data) {
+       console.log(data);
+       currentConditions(data);
+       
+     });
+ }
+ });
+ const forecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchedCity}&appid=${apiKey}&units=imperial`
+fetch(forecast).then(function (response){
+ if(response.ok){
+   response.json().then(function (data) {
+     fiveDay(data)
+   });
+ }
+});
+
+}};
 
 function init() {
-  const savedCities = JSON.parse(localStorage.getItem("Previous City"));
+  let savedCities = JSON.parse(localStorage.getItem("Previous City"));
   if (savedCities !== null) {
     cities = savedCities;
-  } else {
-    recentSearch();
-  }
+  } 
+  renderPast();
 };
 
 
-cityList.addEventListener("click", (e) => {
-  fetchData(e.target.innerHTML)
-  weatherDisplay.innerHTML = "";
-})
+searchForm.addEventListener("click", weatherSearch);
 
-
+cityList.addEventListener("click", pastSearch);
 
 init(); 
 // change the cityList container so that they go in a different container. Make sure that the previous searches clear
