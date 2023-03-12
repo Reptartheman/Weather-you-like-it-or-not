@@ -40,14 +40,29 @@
 
 .cityList{
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: center;
     font-family: var(--fontgroup);
-    margin-left: 90px;
+}
+
+.btn {
+    width: fit-content;
+    align-self: center;
+    transition-duration: 0.4s;
+}
+
+.btn:hover {
+    background-color: white;
+    color: #0d6efd;
+}
+
+#newButton {
+    margin-bottom: 5px;
 }
 
 #currentWeather{
     background-color: #0d6efd;
-    color: beige;
+    color: white;
     font-family: var(--fontgroup);
     border-radius: 10px;
 }
@@ -84,7 +99,7 @@
 
 .input-group{
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-left: 2px;
 }
 

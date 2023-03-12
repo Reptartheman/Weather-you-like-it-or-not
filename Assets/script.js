@@ -32,13 +32,12 @@ function storeCities(searchBarText) {
 // creates a new button, then fetches data of the searched city in that new button
 function recentSearch() {
   weatherDisplay.innerHTML = "";
-  for (let i = 0; i <cities.length; i++) {
-  const recentCity = cities[i];
   const button = document.createElement("button");
   button.classList = "btn btn-primary";
+  button.id = "newButton";
   button.textContent = searchBarText.value;
   cityList.appendChild(button);
-  }
+  
 }
 
 //this function gets weather data from the city searched in the searchBarText
@@ -120,9 +119,11 @@ function init() {
   const savedCities = JSON.parse(localStorage.getItem("Previous City"));
   if (savedCities !== null) {
     cities = savedCities;
-  };
-  recentSearch();
+  } else {
+    recentSearch();
+  }
 };
+
 
 cityList.addEventListener("click", (e) => {
   fetchData(e.target.innerHTML)
