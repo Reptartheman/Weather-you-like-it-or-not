@@ -30,8 +30,6 @@
 }
 
 
-
-
 .item{
     justify-self: center;
     width: 175px;
@@ -41,13 +39,13 @@
 .cityList{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     font-family: var(--fontgroup);
 }
 
 .btn {
     width: fit-content;
-    align-self: center;
+    align-self: self-start;
     transition-duration: 0.4s;
 }
 
@@ -57,12 +55,16 @@
 }
 
 #newButton {
+    width: 250px;
     margin-bottom: 5px;
+    margin-left: 5px;
 }
 
 #currentWeather{
-    background-color: #0d6efd;
-    color: white;
+    background-color: white;
+    color: #0d6efd;
+    border-style: solid;
+    border-color: #0d6efd;
     font-family: var(--fontgroup);
     border-radius: 10px;
 }
@@ -99,7 +101,7 @@
 
 .input-group{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-left: 2px;
 }
 
@@ -114,10 +116,6 @@
     font-size:medium
 }
 
-/* .placeholders{
-    display: flex;
-    justify-content: space-around;
-} */
 
 .footer{
     display: flex;
@@ -133,8 +131,3 @@
     font-size:xx-large;
     color: beige;
 }
-
-/* #fivedayforecast{
-    text-align: center;
-
-} */

@@ -3,7 +3,7 @@ const searchButton = document.querySelector("#searchButton");
 let searchBarText = document.querySelector("#searchBarText");
 let weatherDisplay = document.querySelector(".weatherDisplay");
 let cityList = document.querySelector(".cityList");
-let cities = [];
+let searchedCities = [];
 
 
 //the date
@@ -39,11 +39,11 @@ function weatherSearch(event)  {
       }
     });
 
-    cities.push(searchedCity)
-
+    searchedCities.push(searchedCity)
+    searchBarText.value = "";
     storeCities();
     renderPast();
-    searchBarText.value = "";
+    
      } else {
       window.alert("Please enter a city name");
       return;
@@ -54,13 +54,13 @@ function weatherSearch(event)  {
 
 // stores searched city to local storage 
 function storeCities() {
-  localStorage.setItem("Previous City", JSON.stringify(cities));
+  localStorage.setItem("Previous City", JSON.stringify(searchedCities));
 }
 // creates a new button
 function renderPast() {
   weatherDisplay.innerHTML = ""; 
-  for (let i = 0; i < cities.length; i++){
-  const city = cities[i];
+  for (let i = 0; i < searchedCities.length; i++){
+  const city = searchedCities[i];
   const button = document.createElement("button");
   button.textContent = city.toUpperCase();
   button.classList = "btn btn-primary";
@@ -120,9 +120,9 @@ function fiveDay(data) {
   };
 };
 
-function pastSearch() {
+function pastSearch(event) {
 weatherDisplay.innerHTML= "";
-const searchedCity = searchBarText.value.trim();
+const searchedCity = event.target.innerHTML;
 const apiKey = "8160474e6f23dd64a3ea9a9e05d2989d";
 
 if (searchedCity){
@@ -150,7 +150,7 @@ fetch(forecast).then(function (response){
 function init() {
   let savedCities = JSON.parse(localStorage.getItem("Previous City"));
   if (savedCities !== null) {
-    cities = savedCities;
+    searchedCities = savedCities;
   } 
   renderPast();
 };
