@@ -21,3 +21,7 @@ HTML, CSS, JavaScript, OpenWeather API, Day.js, Local Storage, GitHub, VS code, 
 ## Resources
 
 Mimo, SoloLearn, edX codiing bootcamp, various GitHub repositories, W3 schools, The Modern JavaScript Tutorial, OpenWeather API, Flaticon.com.
+
+## Deployment 
+
+https://reptartheman.github.io/Weather-you-like-it-or-not/
