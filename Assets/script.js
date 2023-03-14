@@ -7,10 +7,10 @@ let searchedCities = [];
 
 
 //the date
-function displayDate() {
+/* function displayDate() {
   var todayDate = dayjs().format('M/DD/YYYY');
   return todayDate;
-}
+} */
 
 //When clicked, the content entered in the searchbar saves to localstorage and creates new button.
 function weatherSearch(event)  {
@@ -44,6 +44,7 @@ function weatherSearch(event)  {
     storeCities();
     renderPast();
     
+    
      } else {
       window.alert("Please enter a city name");
       return;
@@ -58,7 +59,7 @@ function storeCities() {
 }
 // creates a new button
 function renderPast() {
-  weatherDisplay.innerHTML = ""; 
+  cityList.innerHTML = ""; 
   for (let i = 0; i < searchedCities.length; i++){
   const city = searchedCities[i];
   const button = document.createElement("button");
