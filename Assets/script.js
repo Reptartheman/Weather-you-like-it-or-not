@@ -8,105 +8,57 @@ let cityList = document.querySelector(".cityList");
 let searchedCities = [];
 
 
-const getCurrentTemperature = () => {
-  const searchInput = cityInput.value.trim();
-    const currentTemp = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${apiKey}&units=imperial`
-    fetch(currentTemp).then(res => res.json())
-      .then(data => {
-        console.log(data);
-        return data.main;
-      })
-      .then(data => `${displayDataResult("temperature", Math.floor(data.temp))}`)
-      .catch(err => err);
+const fetchWeatherData = async (searchInput, apiKey) => {
+  const baseUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${apiKey}&units=imperial`;
+  
+  try {
+    const response = await fetch(baseUrl);
+    const data = await response.json();
+    return {
+      temperature: Math.floor(data.main.temp),
+      cityName: data.name,
+      weather: data.weather[0],
+      icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`
+    };
+  } catch (err) {
+    console.error('Error fetch err');
+    return null;
+  }
 };
 
-const getCityName = () => {
+const displayWeatherInfo = (weatherData) => {
+  const displayMap = {
+    temperature: (temp) => `${temp}℉`,
+    location: (name) => `Current conditions for ${name}`,
+    weatherDescription: (desc) => desc,
+    weatherIcon: (icon) => {
+      const weatherIcon = document.getElementById("weatherIcon");
+      weatherIcon.setAttribute("src", icon);
+      return weatherIcon;
+    }
+  };
+
+  Object.entries(weatherData).forEach(([key, value]) => {
+    const element = document.getElementById(key);
+    if (element) {
+      element.innerHTML = displayMap[key](value);
+    }
+  });
+};
+
+
+searchButton.addEventListener('click', async (e) => {
+  e.preventDefault();
   const searchInput = cityInput.value.trim();
-    const currentCity = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${apiKey}&units=imperial`
-    fetch(currentCity).then(res => res.json())
-      .then(data => data.name)
-      .then(name => `${displayDataResult("location", name)}`)
-      .catch(err => err);
-}
-
-const getWeatherDescription = () => {
-  const searchInput = cityInput.value.trim();
-    const currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${apiKey}&units=imperial`
-    fetch(currentWeather).then(res => res.json())
-      .then(data => data.weather)
-      .then(weather => `${displayDataResult("weatherDescription", weather[0].description)}`)
-      .catch(err => err);
-}
-
-const getWeatherIcon = () => {
-  const searchInput = cityInput.value.trim();
-    const currentIcon = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${apiKey}&units=imperial`
-    fetch(currentIcon).then(res => res.json())
-      .then(data => data.weather)
-      .then(weather => {
-        const weatherIcon = document.getElementById("weatherIcon")
-        const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
-        weatherIcon.setAttribute("src", iconUrl)
-        return `${displayDataResult("weatherIcon", weatherIcon)}`
-      })
-      .catch(err => err);
-}
-
-
-const displayDataResult = (elementId, info) => {
-  const displayElement = document.getElementById(elementId);
-  if (elementId === "temperature") {
-    displayElement.innerHTML = `${info}℉`;
-  } else if (elementId === "date") {
-    displayElement.innerHTML = `Today is: ${info}`;
-  } else if (elementId === "location") {
-    displayElement.innerHTML = `Current conditions for ${info} `;
-  } else if (elementId === "weatherDescription") {
-    displayElement.innerHTML = `${info}`;
-  } else if (elementId === "weatherIcon") {
-    displayElement.innerHTML = `${info}`;
-  }
-  return displayElement;
-}
-
-
-  searchButton.addEventListener('click', (e) => {
-    e.preventDefault()
-    getCurrentTemperature();
-    getCityName();
-    getWeatherDescription();
-    getWeatherIcon();
-  })
-  displayDataResult("date", `${todaysDate}`);
-
-/* function weatherSearch(event)  {
-    event.preventDefault();
-     weatherDisplay.innerHTML="";
-     
-
-   
-    const forecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchInput}&appid=${apiKey}&units=imperial`
-    fetch(forecast).then(function (response){
-      if(response.ok){
-        response.json().then(function (data) {
-          fiveDay(data)
-        });
-      }
+  const weatherData = await fetchWeatherData(searchInput, apiKey);
+  
+  if (weatherData) {
+    displayWeatherInfo({
+      temperature: weatherData.temperature,
+      location: weatherData.cityName,
+      weatherDescription: weatherData.weather.description,
+      weatherIcon: weatherData.icon
     });
-
-    searchedCities.push(searchInput)
-    searchBarText.value = "";
-    storeCities();
-    renderPast();
-    
-    
-     } else {
-      window.alert("Please enter a city name");
-      return;
-     }
-
-}; */
-
-
-
+  }
+});
 
